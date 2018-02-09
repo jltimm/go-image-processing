@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/jltimm/go-image-processing/convolutions"
+	"github.com/jltimm/go-image-processing/utils"
 )
 
 func check(err error) {
@@ -22,7 +23,10 @@ func main() {
 		data, err := ioutil.ReadFile(fileName)
 		check(err)
 
+		//TODO: reformatting, add ars to sobel. maybe add
+		//method to get image data instead of just ReadFile
 		if len(data) >= 0 && conv == "sobel" {
+			utils.CheckIfFileExists()
 			convolutions.Sobel()
 		}
 	}
