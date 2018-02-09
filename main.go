@@ -2,11 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/jltimm/go-image-processing/convolutions"
+	"os"
 )
 
 func main() {
-	fmt.Printf("Hello, world!\n")
-	fmt.Printf("Hey again!\n")
-	convolutions.Sobel()
+	args := os.Args[1:]
+	if len(args) >= 2 {
+		conv := args[0]
+		fileName := args[1]
+		fmt.Println(conv)
+		fmt.Println(fileName)
+		//TODO: search for file
+	}
 }
