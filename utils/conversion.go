@@ -1,11 +1,13 @@
 package utils
 
 import (
-	"fmt"
+	"os"
 )
 
-// CheckIfFileExists checks if the file exists, and then converts it to specified format
-func CheckIfFileExists() {
-	//TODO: write function
-	fmt.Println("Hello, you're trying to check if a file exists!")
+// CheckIfFileExists takes as input a filename, and checks if a file exists
+func CheckIfFileExists(filename string) bool {
+	if _, err := os.Stat(filename); err == nil {
+		return true
+	}
+	return false
 }
