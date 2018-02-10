@@ -12,7 +12,6 @@ func Sobel(filename string) {
 		fmt.Println("The file does not exist")
 		return
 	}
-	img, bounds := utils.DecodeImage(filename)
+	img := utils.DecodeImage(filename)
 	fmt.Print(img)
-	fmt.Print(bounds)
 }

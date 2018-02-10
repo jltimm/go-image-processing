@@ -29,7 +29,7 @@ func CheckIfFileExists(filename string) bool {
 }
 
 // DecodeImage takes as input a filename, and returns the decoded Image data, and its bounds
-func DecodeImage(filename string) (image.Image, image.Rectangle) {
+func DecodeImage(filename string) image.Image {
 	ext := getFileExtension(filename)
 	if !checkIfPngOrJpg(ext) {
 		panic("Unsupported file type: must be png or jpg")
@@ -42,15 +42,19 @@ func DecodeImage(filename string) (image.Image, image.Rectangle) {
 	if err != nil {
 		panic(err)
 	}
-	return img, img.Bounds()
+	return img
 }
 
-// ConvertToGrayscale takes as input an image and the images bounds, and converts it to grayscale.
+// ConvertToGrayscaleFromImageData takes as input an image and the images bounds, and converts it to grayscale.
 // A lot of this code is inspired by https://maxhalford.github.io/blog/halftoning-1/
 // TODO: maybe move this out of this file?
 // TODO: test if this works correctly
-func ConvertToGrayscale(img image.Image, bounds image.Rectangle) *image.Gray {
-	gray := image.NewGray(bounds)
+// TODO: consider adding checks on extension, existence, etc
+func ConvertToGrayscaleFromImageData(img image.Image) *image.Gray {
+	var (
+		bounds = img.Bounds()
+		gray   = image.NewGray(bounds)
+	)
 	for x := 0; x < bounds.Max.X; x++ {
 		for y := 0; y < bounds.Max.Y; y++ {
 			var rgba = img.At(x, y)
@@ -58,4 +62,10 @@ func ConvertToGrayscale(img image.Image, bounds image.Rectangle) *image.Gray {
 		}
 	}
 	return gray
+}
+
+// ConvertToGrayscaleFromFilename takes as input a filename and converts it to grayscale
+func ConvertToGrayscaleFromFilename(filename string) *image.Gray {
+	img := DecodeImage(filename)
+	return ConvertToGrayscaleFromImageData(img)
 }
