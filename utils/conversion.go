@@ -1,12 +1,17 @@
 package utils
 
 import (
-	"fmt"
 	"image"
 	"image/png"
 	"os"
 	"strings"
 )
+
+// checkIfPngOrJpg takes as input an extension and returns true if its jpg or png.
+// TODO: could do some refactoring on where this is called.
+func checkIfPngOrJpg(ext string) bool {
+	return (ext == "png" || ext == "jpg" || ext == "jpeg")
+}
 
 // getFileExtension takes as input a filename, and gets the extension
 func getFileExtension(filename string) string {
@@ -26,7 +31,9 @@ func CheckIfFileExists(filename string) bool {
 // DecodeImage takes as input a filename, and returns the decoded Image data, and its bounds
 func DecodeImage(filename string) (image.Image, image.Rectangle) {
 	ext := getFileExtension(filename)
-	fmt.Println(ext)
+	if !checkIfPngOrJpg(ext) {
+		panic("Unsupported file type: must be png or jpg")
+	}
 	//TODO: consider adding check to see if this throws an error. it shouldn't, but who knows
 	reader, _ := os.Open(filename)
 	defer reader.Close()
