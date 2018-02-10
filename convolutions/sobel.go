@@ -13,5 +13,9 @@ func Sobel(filename string) {
 		return
 	}
 	img := utils.DecodeImage(filename)
+	grayImg := utils.ConvertToGrayscaleFromImageData(img)
+	grayImg2 := utils.ConvertToGrayscaleFromFilename(filename)
 	fmt.Print(img)
+	fmt.Println(grayImg)
+	fmt.Println(grayImg2)
 }

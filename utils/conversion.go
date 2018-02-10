@@ -2,6 +2,7 @@ package utils
 
 import (
 	"image"
+	"image/jpeg"
 	"image/png"
 	"os"
 	"strings"
@@ -28,6 +29,22 @@ func CheckIfFileExists(filename string) bool {
 	return true
 }
 
+// decodePngOrJpg takes as input a file and extension, and returns the decoded image
+func decodePngOrJpg(reader *os.File, ext string) image.Image {
+	if ext == "png" {
+		img, err := png.Decode(reader)
+		if err != nil {
+			panic(err)
+		}
+		return img
+	}
+	img, err := jpeg.Decode(reader)
+	if err != nil {
+		panic(err)
+	}
+	return img
+}
+
 // DecodeImage takes as input a filename, and returns the decoded Image data, and its bounds
 func DecodeImage(filename string) image.Image {
 	ext := getFileExtension(filename)
@@ -37,11 +54,7 @@ func DecodeImage(filename string) image.Image {
 	//TODO: consider adding check to see if this throws an error. it shouldn't, but who knows
 	reader, _ := os.Open(filename)
 	defer reader.Close()
-	//TODO: check the file type of the image before decoding... this is hardcoded for PNG
-	img, err := png.Decode(reader)
-	if err != nil {
-		panic(err)
-	}
+	img := decodePngOrJpg(reader, ext)
 	return img
 }
 
