@@ -44,3 +44,18 @@ func DecodeImage(filename string) (image.Image, image.Rectangle) {
 	}
 	return img, img.Bounds()
 }
+
+// ConvertToGrayscale takes as input an image and the images bounds, and converts it to grayscale.
+// A lot of this code is inspired by https://maxhalford.github.io/blog/halftoning-1/
+// TODO: maybe move this out of this file?
+// TODO: test if this works correctly
+func ConvertToGrayscale(img image.Image, bounds image.Rectangle) *image.Gray {
+	gray := image.NewGray(bounds)
+	for x := 0; x < bounds.Max.X; x++ {
+		for y := 0; y < bounds.Max.Y; y++ {
+			var rgba = img.At(x, y)
+			gray.Set(x, y, rgba)
+		}
+	}
+	return gray
+}
