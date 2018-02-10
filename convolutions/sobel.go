@@ -12,8 +12,7 @@ func Sobel(filename string) {
 		fmt.Println("The file does not exist")
 		return
 	}
-	fmt.Println("The file exists")
-
-	// TODO: Implement methods that can convert the image
-	// into a format that we can work with.
+	img, bounds := utils.DecodeImage(filename)
+	fmt.Print(img)
+	fmt.Print(bounds)
 }
