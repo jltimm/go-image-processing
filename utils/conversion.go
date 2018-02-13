@@ -42,3 +42,6 @@ func ConvertToGrayscaleFromFilename(filename string) *image.Gray {
 	img := DecodeImage(filename)
 	return ConvertToGrayscaleFromImageData(img)
 }
+
+// TODO: New method: ConvertToSepiaFromFilename / ConvertToSepiaFromImageData
+// https://stackoverflow.com/questions/1061093/how-is-a-sepia-tone-created
