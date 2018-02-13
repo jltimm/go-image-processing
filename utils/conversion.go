@@ -6,6 +6,7 @@ import (
 )
 
 // DecodeImage takes as input a filename, and returns the decoded Image data, and its bounds
+// TODO: consider getting rid of ext := getFileExtension(filename)
 func DecodeImage(filename string) image.Image {
 	ext := getFileExtension(filename)
 	if !checkIfPngOrJpg(ext) {
