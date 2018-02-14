@@ -7,6 +7,7 @@ import (
 )
 
 // Sobel applies sobel filter to an image
+// TODO: write this function already!
 func Sobel(filename string) {
 	if !utils.CheckIfFileExists(filename) {
 		fmt.Println("The file does not exist")
