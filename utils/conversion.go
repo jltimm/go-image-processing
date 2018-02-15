@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"image"
 	"os"
 )
@@ -49,6 +50,12 @@ func ConvertToSepiaFromImageData(img image.Image) *image.RGBA {
 		bounds = img.Bounds()
 		sepia  = image.NewRGBA(bounds)
 	)
+	for x := 0; x < bounds.Max.X; x++ {
+		for y := 0; y < bounds.Max.Y; y++ {
+			var rgba = img.At(x, y)
+			fmt.Println(rgba)
+		}
+	}
 	return sepia
 }
 

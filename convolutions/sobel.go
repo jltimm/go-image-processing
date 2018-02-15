@@ -14,6 +14,8 @@ func Sobel(filename string) {
 		return
 	}
 	img := utils.DecodeImage(filename)
-	grayImg := utils.ConvertToGrayscaleFromImageData(img)
-	fmt.Println(grayImg)
+	sepiaImg := utils.ConvertToSepiaFromImageData(img)
+	if sepiaImg == nil {
+		fmt.Println("Nil...")
+	}
 }
