@@ -45,6 +45,10 @@ func ConvertToGrayscaleFromFilename(filename string) *image.Gray {
 	return ConvertToGrayscaleFromImageData(img)
 }
 
+func convertTo8Bit(r uint32, g uint32, b uint32, a uint32) (uint8, uint8, uint8, uint8) {
+	return uint8(r), uint8(g), uint8(b), uint8(a)
+}
+
 // ConvertToSepiaFromImageData takes as input an image and converts it to sepia tone
 func ConvertToSepiaFromImageData(img image.Image) *image.RGBA {
 	var (
@@ -53,8 +57,12 @@ func ConvertToSepiaFromImageData(img image.Image) *image.RGBA {
 	)
 	for x := 0; x < bounds.Max.X; x++ {
 		for y := 0; y < bounds.Max.Y; y++ {
-			var rgba = img.At(x, y)
-			fmt.Println(rgba)
+			var r, g, b, a = convertTo8Bit(img.At(x, y).RGBA())
+
+			fmt.Println(r)
+			fmt.Println(g)
+			fmt.Println(b)
+			fmt.Println(a)
 		}
 	}
 	return sepia
