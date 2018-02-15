@@ -44,8 +44,12 @@ func ConvertToGrayscaleFromFilename(filename string) *image.Gray {
 }
 
 // ConvertToSepiaFromImageData takes as input an image and converts it to sepia tone
-func ConvertToSepiaFromImageData(img image.Image) image.Image {
-	return img
+func ConvertToSepiaFromImageData(img image.Image) *image.RGBA {
+	var (
+		bounds = img.Bounds()
+		sepia  = image.NewRGBA(bounds)
+	)
+	return sepia
 }
 
 // https://stackoverflow.com/questions/1061093/how-is-a-sepia-tone-created
