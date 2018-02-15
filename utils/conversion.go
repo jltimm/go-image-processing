@@ -6,7 +6,6 @@ import (
 )
 
 // DecodeImage takes as input a filename, and returns the decoded Image data, and its bounds
-// TODO: consider getting rid of ext := getFileExtension(filename)
 func DecodeImage(filename string) image.Image {
 	ext := getFileExtension(filename)
 	if !checkIfPngOrJpg(ext) {
@@ -19,7 +18,7 @@ func DecodeImage(filename string) image.Image {
 	return img
 }
 
-// ConvertToGrayscaleFromImageData takes as input an image and the images bounds, and converts it to grayscale.
+// ConvertToGrayscaleFromImageData takes as input an image, and converts it to grayscale.
 // A lot of this code is inspired by https://maxhalford.github.io/blog/halftoning-1/
 // TODO: maybe move this out of this file?
 // TODO: test if this works correctly
@@ -44,5 +43,14 @@ func ConvertToGrayscaleFromFilename(filename string) *image.Gray {
 	return ConvertToGrayscaleFromImageData(img)
 }
 
-// TODO: New method: ConvertToSepiaFromFilename / ConvertToSepiaFromImageData
+// ConvertToSepiaFromImageData takes as input an image and converts it to sepia tone
+func ConvertToSepiaFromImageData(img image.Image) image.Image {
+	return img
+}
+
 // https://stackoverflow.com/questions/1061093/how-is-a-sepia-tone-created
+// ConvertToSepiaFromFilename takes as input a filename and converts it to sepia tone
+func ConvertToSepiaFromFilename(filename string) image.Image {
+	img := DecodeImage(filename)
+	return img
+}
