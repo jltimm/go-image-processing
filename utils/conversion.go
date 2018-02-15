@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 )
@@ -61,7 +60,8 @@ func ConvertToSepiaFromImageData(img image.Image) *image.RGBA {
 			gSepia := (float64(r) * .349) + (float64(g) * .686) + (float64(b) * .168)
 			bSepia := (float64(r) * .272) + (float64(g) * .534) + (float64(b) * .131)
 			color := getColor(rSepia, gSepia, bSepia, float64(a))
-			fmt.Println(color)
+
+			sepia.Set(x, y, color)
 		}
 	}
 	return sepia
