@@ -4,22 +4,7 @@ import (
 	"fmt"
 	"image"
 	"image/color"
-	"os"
 )
-
-// DecodeImage takes as input a filename, and returns the decoded Image data, and its bounds
-// TODO: move this method to decode.go
-func DecodeImage(filename string) image.Image {
-	ext := getFileExtension(filename)
-	if !checkIfPngOrJpg(ext) {
-		panic("Unsupported file type: must be png or jpg")
-	}
-	//TODO: consider adding check to see if this throws an error. it shouldn't, but who knows
-	reader, _ := os.Open(filename)
-	defer reader.Close()
-	img := decodePngOrJpg(reader, ext)
-	return img
-}
 
 // ConvertToGrayscaleFromImageData takes as input an image, and converts it to grayscale.
 // A lot of this code is inspired by https://maxhalford.github.io/blog/halftoning-1/

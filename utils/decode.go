@@ -44,3 +44,16 @@ func decodePngOrJpg(reader *os.File, ext string) image.Image {
 	}
 	return img
 }
+
+// DecodeImage takes as input a filename, and returns the decoded Image data, and its bounds
+func DecodeImage(filename string) image.Image {
+	ext := getFileExtension(filename)
+	if !checkIfPngOrJpg(ext) {
+		panic("Unsupported file type: must be png or jpg")
+	}
+	//TODO: consider adding check to see if this throws an error. it shouldn't, but who knows
+	reader, _ := os.Open(filename)
+	defer reader.Close()
+	img := decodePngOrJpg(reader, ext)
+	return img
+}
