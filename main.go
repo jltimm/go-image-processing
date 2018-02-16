@@ -19,6 +19,6 @@ func main() {
 			convolutions.Sobel(filename)
 		}
 
-		utils.EncodeRGBA(utils.ConvertToSepiaFromFilename(filename))
+		utils.CreateFileFromRGBA("", "", utils.ConvertToSepiaFromFilename(filename))
 	}
 }

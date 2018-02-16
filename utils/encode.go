@@ -1,11 +1,18 @@
 package utils
 
 import (
-	"fmt"
 	"image"
+	"image/png"
+	"os"
 )
 
-// EncodeRGBA takes as input image data and encodes it
-func EncodeRGBA(img *image.RGBA) {
-	fmt.Println("Encoding...")
+// CreateFileFromRGBA takes as input image data and encodes it
+func CreateFileFromRGBA(filename string, convolutionName string, img *image.RGBA) {
+	outputFile, err := os.Create("test.png")
+	if err != nil {
+		// TODO: handle
+	}
+
+	png.Encode(outputFile, img)
+	outputFile.Close()
 }
