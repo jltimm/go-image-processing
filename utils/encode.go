@@ -11,7 +11,7 @@ import (
 // CreateFileFromRGBA takes as input image data and encodes it
 // TODO: clean this up
 func CreateFileFromRGBA(filename string, desiredFilename string, img *image.RGBA) {
-	outputFile, err := os.Create("test.png")
+	outputFile, err := os.Create("test-gray.png")
 	if err != nil {
 		// TODO: handle
 	}

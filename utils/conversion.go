@@ -48,6 +48,7 @@ func getColor(r, g, b, a float64) color.Color {
 }
 
 // ConvertToSepiaFromImageData takes as input an image and converts it to sepia tone
+// TODO: parameter to make more kinds of sepia
 func ConvertToSepiaFromImageData(img image.Image) *image.RGBA {
 	var (
 		bounds = img.Bounds()
@@ -65,6 +66,35 @@ func ConvertToSepiaFromImageData(img image.Image) *image.RGBA {
 		}
 	}
 	return sepia
+}
+
+// ConvertToGrayscaleFromImageDataReturnRGBA takes as input image data and returns a grayscale image
+// TODO: These two methods are named horribly, and should be placed in a new folder. In fact, all conversion types with different
+// return types should be moved to different folders so they can all use a common name.
+// TODO: this doesn't even convert it to gray
+func ConvertToGrayscaleFromImageDataReturnRGBA(img image.Image) *image.RGBA {
+	var (
+		bounds = img.Bounds()
+		gray   = image.NewRGBA(bounds)
+	)
+	for x := 0; x < bounds.Max.X; x++ {
+		for y := 0; y < bounds.Max.Y; y++ {
+			var r, g, b, a = convert32BitTo8Bit(img.At(x, y).RGBA())
+			rGray := (float64(r) * .393) + (float64(g) * .769) + (float64(b) * .189)
+			gGray := (float64(r) * .349) + (float64(g) * .686) + (float64(b) * .168)
+			bGray := (float64(r) * .272) + (float64(g) * .534) + (float64(b) * .131)
+			color := getColor(rGray, gGray, bGray, float64(a))
+
+			gray.Set(x, y, color)
+		}
+	}
+	return gray
+}
+
+// ConvertToGrayscaleFromFilenameReturnRGBA takes as input image data and returns a grayscale image
+func ConvertToGrayscaleFromFilenameReturnRGBA(filename string) *image.RGBA {
+	img := DecodeImage(filename)
+	return ConvertToGrayscaleFromImageDataReturnRGBA(img)
 }
 
 // ConvertToSepiaFromFilename takes as input a filename and converts it to sepia tone
