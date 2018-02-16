@@ -2,9 +2,10 @@ package utils
 
 import (
 	"fmt"
+	"image"
 )
 
-// Encode encodes an image
-func Encode() {
+// EncodeRGBA takes as input image data and encodes it
+func EncodeRGBA(img *image.RGBA) {
 	fmt.Println("Encoding...")
 }

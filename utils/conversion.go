@@ -68,7 +68,7 @@ func ConvertToSepiaFromImageData(img image.Image) *image.RGBA {
 }
 
 // ConvertToSepiaFromFilename takes as input a filename and converts it to sepia tone
-func ConvertToSepiaFromFilename(filename string) image.Image {
+func ConvertToSepiaFromFilename(filename string) *image.RGBA {
 	img := DecodeImage(filename)
-	return img
+	return ConvertToSepiaFromImageData(img)
 }
