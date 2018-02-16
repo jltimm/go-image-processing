@@ -10,12 +10,14 @@ import (
 
 // CreateFileFromRGBA takes as input image data and encodes it
 // TODO: clean this up
-//TODO: replace convolutionName with desiredFileName. split string by ',' and check for extension. if no extension, use the one from the filename
-func CreateFileFromRGBA(filename string, convolutionName string, img *image.RGBA) {
+func CreateFileFromRGBA(filename string, desiredFilename string, img *image.RGBA) {
 	outputFile, err := os.Create("test.png")
 	if err != nil {
 		// TODO: handle
 	}
+
+	// TODO: split desiredFilename by ',' and check for extension. if no extension, use the one from the filename
+	// Check if go can do optional parameters??
 
 	png.Encode(outputFile, img)
 	outputFile.Close()
