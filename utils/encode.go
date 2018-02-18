@@ -10,10 +10,10 @@ import (
 
 // CreateFileFromRGBA takes as input image data and encodes it
 // TODO: clean this up
-func CreateFileFromRGBA(filename string, desiredFilename string, img *image.RGBA) {
+func CreateFileFromRGBA(filename string, newFilename string, img *image.RGBA) {
 	outputFile, err := os.Create("test-gray.png")
 	if err != nil {
-		// TODO: handle
+		panic(err)
 	}
 
 	// TODO: split desiredFilename by ',' and check for extension. if no extension, use the one from the filename

@@ -17,6 +17,5 @@ func main() {
 		if conv == "sobel" {
 			convolutions.Sobel(filename)
 		}
-
 	}
 }

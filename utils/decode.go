@@ -51,7 +51,6 @@ func DecodeImage(filename string) image.Image {
 	if !checkIfPngOrJpg(ext) {
 		panic("Unsupported file type: must be png or jpg")
 	}
-	//TODO: consider adding check to see if this throws an error. it shouldn't, but who knows
 	reader, _ := os.Open(filename)
 	defer reader.Close()
 	img := decodePngOrJpg(reader, ext)

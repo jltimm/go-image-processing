@@ -8,7 +8,6 @@ import (
 // ConvertToGrayscaleFromImageData takes as input an image, and converts it to grayscale.
 // A lot of this code is inspired by https://maxhalford.github.io/blog/halftoning-1/
 // TODO: maybe move this out of this file?
-// TODO: test if this works correctly
 // TODO: consider adding checks on extension, existence, etc
 func ConvertToGrayscaleFromImageData(img image.Image) *image.Gray {
 	var (
@@ -30,11 +29,13 @@ func ConvertToGrayscaleFromFilename(filename string) *image.Gray {
 	return ConvertToGrayscaleFromImageData(img)
 }
 
-// Convert32BitTo8Bit converts uint32 to uint8
+// convert32BitTo8Bit converts uint32 to uint8
 func convert32BitTo8Bit(r, g, b, a uint32) (uint8, uint8, uint8, uint8) {
 	return uint8(r), uint8(g), uint8(b), uint8(a)
 }
 
+// getColor takes as input rgba values, and if any of the values are greater
+// than a, it just sets it to a
 func getColor(r, g, b, a float64) color.Color {
 	if r > a {
 		r = a
