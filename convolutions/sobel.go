@@ -13,8 +13,9 @@ func Sobel(filename string) {
 		fmt.Println("The file does not exist")
 		return
 	}
-	img := utils.DecodeImage(filename)
-	sepiaImg := utils.ConvertToSepiaFromImageData(img)
+	//img := utils.DecodeImage(filename)
+	img := utils.ConvertToGrayscaleFromFilenameReturnRGBA(filename)
+	grayImg := utils.ConvertToSepiaFromImageData(img)
 	if sepiaImg == nil {
 		fmt.Println("Nil...")
 	}
