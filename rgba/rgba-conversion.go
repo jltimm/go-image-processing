@@ -7,11 +7,11 @@ import (
 	"github.com/jltimm/go-image-processing/utils"
 )
 
-// ConvertToGrayscaleFromImageDataReturnRGBA takes as input image data and returns a grayscale image
+// ConvertToGrayscaleFromImageData takes as input image data and returns a grayscale image
 // TODO: These two methods are named horribly, and should be placed in a new folder. In fact, all conversion types with different
 // return types should be moved to different folders so they can all use a common name.
 // TODO: clean up
-func ConvertToGrayscaleFromImageDataReturnRGBA(img image.Image) *image.RGBA {
+func ConvertToGrayscaleFromImageData(img image.Image) *image.RGBA {
 	var (
 		bounds = img.Bounds()
 		gray   = image.NewRGBA(bounds)
@@ -27,8 +27,8 @@ func ConvertToGrayscaleFromImageDataReturnRGBA(img image.Image) *image.RGBA {
 	return gray
 }
 
-// ConvertToGrayscaleFromFilenameReturnRGBA takes as input image data and returns a grayscale image
-func ConvertToGrayscaleFromFilenameReturnRGBA(filename string) *image.RGBA {
+// ConvertToGrayscaleFromFilename takes as input image data and returns a grayscale image
+func ConvertToGrayscaleFromFilename(filename string) *image.RGBA {
 	img := utils.DecodeImage(filename)
-	return ConvertToGrayscaleFromImageDataReturnRGBA(img)
+	return ConvertToGrayscaleFromImageData(img)
 }
