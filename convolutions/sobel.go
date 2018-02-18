@@ -14,9 +14,8 @@ func Sobel(filename string) {
 		return
 	}
 	//img := utils.DecodeImage(filename)
-	img := utils.ConvertToGrayscaleFromFilenameReturnRGBA(filename)
-	grayImg := utils.ConvertToSepiaFromImageData(img)
-	if sepiaImg == nil {
+	img := utils.ConvertToGrayscaleFromFilename(filename)
+	if img == nil {
 		fmt.Println("Nil...")
 	}
 }
