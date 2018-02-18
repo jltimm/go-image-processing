@@ -4,8 +4,6 @@ import (
 	"os"
 
 	"github.com/jltimm/go-image-processing/convolutions"
-	"github.com/jltimm/go-image-processing/rgba"
-	"github.com/jltimm/go-image-processing/utils"
 )
 
 // Basically, all this method does is allow us to run
@@ -20,6 +18,5 @@ func main() {
 			convolutions.Sobel(filename)
 		}
 
-		utils.CreateFileFromRGBA("", "", rgba.ConvertToGrayscaleFromFilename(filename))
 	}
 }
