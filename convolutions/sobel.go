@@ -1,21 +1,26 @@
 package convolutions
 
 import (
-	"fmt"
+	"image"
 
 	"github.com/jltimm/go-image-processing/utils"
 )
 
+func sobelOperator(img image.RGBA) image.RGBA {
+	return img
+}
+
 // Sobel applies sobel filter to an image
 // TODO: write this function already!
-func Sobel(filename string) {
+func Sobel(filename string) image.RGBA {
 	if !utils.CheckIfFileExists(filename) {
-		fmt.Println("The file does not exist")
-		return
+		panic("The file does not exist")
 	}
-	//img := utils.DecodeImage(filename)
-	img := utils.ConvertToGrayscaleFromFilename(filename)
+
+	img := utils.ConvertToGrayscaleFromFilenameReturnRGBA(filename)
 	if img == nil {
-		fmt.Println("Nil...")
+		// TODO: handle, there may be a better way to do this
 	}
+	sobelImg := sobelOperator(*img)
+	return sobelImg
 }

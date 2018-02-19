@@ -8,6 +8,7 @@ import (
 
 // Basically, all this method does is allow us to run
 // the various tools in this repo.
+// TODO: general: consider dereferencing all pointers
 func main() {
 	args := os.Args[1:]
 	if len(args) >= 2 {
@@ -17,5 +18,6 @@ func main() {
 		if conv == "sobel" {
 			convolutions.Sobel(filename)
 		}
+
 	}
 }
