@@ -51,10 +51,10 @@ func getColor(r, g, b, a float64) color.Color {
 
 // ConvertToSepiaFromImageData takes as input an image and converts it to sepia tone
 // TODO: parameter to make more kinds of sepia
-func ConvertToSepiaFromImageData(img image.Image) *image.RGBA {
+func ConvertToSepiaFromImageData(img image.Image) *image.NRGBA {
 	var (
 		bounds = img.Bounds()
-		sepia  = image.NewRGBA(bounds)
+		sepia  = image.NewNRGBA(bounds)
 	)
 	for x := 0; x < bounds.Max.X; x++ {
 		for y := 0; y < bounds.Max.Y; y++ {
@@ -70,14 +70,14 @@ func ConvertToSepiaFromImageData(img image.Image) *image.RGBA {
 	return sepia
 }
 
-// ConvertToGrayscaleFromImageDataReturnRGBA takes as input image data and returns a grayscale image
+// ConvertToGrayscaleFromImageDataReturnNRGBA takes as input image data and returns a grayscale image
 // TODO: These two methods are named horribly, and should be placed in a new folder. In fact, all conversion types with different
 // return types should be moved to different folders so they can all use a common name.
 // TODO: clean up
-func ConvertToGrayscaleFromImageDataReturnRGBA(img image.Image) *image.RGBA {
+func ConvertToGrayscaleFromImageDataReturnNRGBA(img image.Image) *image.NRGBA {
 	var (
 		bounds = img.Bounds()
-		gray   = image.NewRGBA(bounds)
+		gray   = image.NewNRGBA(bounds)
 	)
 	for x := 0; x < bounds.Max.X; x++ {
 		for y := 0; y < bounds.Max.Y; y++ {
@@ -90,14 +90,14 @@ func ConvertToGrayscaleFromImageDataReturnRGBA(img image.Image) *image.RGBA {
 	return gray
 }
 
-// ConvertToGrayscaleFromFilenameReturnRGBA takes as input image data and returns a grayscale image
-func ConvertToGrayscaleFromFilenameReturnRGBA(filename string) *image.RGBA {
+// ConvertToGrayscaleFromFilenameReturnNRGBA takes as input image data and returns a grayscale image
+func ConvertToGrayscaleFromFilenameReturnNRGBA(filename string) *image.NRGBA {
 	img := DecodeImage(filename)
-	return ConvertToGrayscaleFromImageDataReturnRGBA(img)
+	return ConvertToGrayscaleFromImageDataReturnNRGBA(img)
 }
 
 // ConvertToSepiaFromFilename takes as input a filename and converts it to sepia tone
-func ConvertToSepiaFromFilename(filename string) *image.RGBA {
+func ConvertToSepiaFromFilename(filename string) *image.NRGBA {
 	img := DecodeImage(filename)
 	return ConvertToSepiaFromImageData(img)
 }
