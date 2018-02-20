@@ -29,9 +29,14 @@ func getPixelValue(color color.Color) int8 {
 
 // Does the actual math for calculating the gradients
 func getGradients(img image.Gray, x int, y int) (int8, int8) {
-	gx := (kernelX[2][2]*getPixelValue(img.At(x-1, y-1)) + (kernelX[2][1] * getPixelValue(img.At(x-1, y))) + (kernelX[2][0] * getPixelValue(img.At(x-1, y+1))))
-	//+ )
-	gy := x * y
+	gx := (kernelX[2][2]*getPixelValue(img.At(x-1, y-1)) + (kernelX[2][1] * getPixelValue(img.At(x-1, y))) + (kernelX[2][0] * getPixelValue(img.At(x-1, y+1))) +
+		kernelX[1][2]*getPixelValue(img.At(x, y-1)) + (kernelX[1][1] * getPixelValue(img.At(x, y))) + (kernelX[1][0] * getPixelValue(img.At(x, y+1))) +
+		kernelX[0][2]*getPixelValue(img.At(x+1, y-1)) + (kernelX[0][1] * getPixelValue(img.At(x+1, y))) + (kernelX[0][0] * getPixelValue(img.At(x+1, y+1))))
+
+	gy := (kernelY[2][2]*getPixelValue(img.At(x-1, y-1)) + (kernelY[2][1] * getPixelValue(img.At(x-1, y))) + (kernelY[2][0] * getPixelValue(img.At(x-1, y+1))) +
+		kernelY[1][2]*getPixelValue(img.At(x, y-1)) + (kernelY[1][1] * getPixelValue(img.At(x, y))) + (kernelY[1][0] * getPixelValue(img.At(x, y+1))) +
+		kernelY[0][2]*getPixelValue(img.At(x+1, y-1)) + (kernelY[0][1] * getPixelValue(img.At(x+1, y))) + (kernelY[0][0] * getPixelValue(img.At(x+1, y+1))))
+
 	return gx, gy
 }
 
