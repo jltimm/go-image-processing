@@ -3,10 +3,12 @@ package convolutions
 import (
 	"fmt"
 	"image"
+	"image/color"
 
 	"github.com/jltimm/go-image-processing/utils"
 )
 
+// Declare the kernels for the sobel operator
 var (
 	kernelX = [][]int8{
 		{1, 0, -1},
@@ -20,27 +22,37 @@ var (
 	}
 )
 
-func getGradients(img image.Gray, x int, y int) (int, int) {
-
-	return x, y
+func getPixelValue(color color.Color) int8 {
+	r, _, _, _ := color.RGBA()
+	return int8(r)
 }
 
-func sobelOperator(img image.Gray) image.Gray {
-	bounds := img.Bounds()
+// Does the actual math for calculating the gradients
+func getGradients(img image.Gray, x int, y int) (int8, int8) {
+	gx := (kernelX[2][2]*getPixelValue(img.At(x-1, y-1)) + (kernelX[2][1] * getPixelValue(img.At(x-1, y))) + (kernelX[2][0] * getPixelValue(img.At(x-1, y+1))))
+	//+ )
+	gy := x * y
+	return gx, gy
+}
+
+// Loops through image, calculating sobel
+func sobelOperator(img image.Gray) *image.Gray {
+	var (
+		bounds = img.Bounds()
+		sobel  = image.NewGray(bounds)
+	)
 	for x := 1; x < bounds.Max.X-1; x++ {
 		for y := 1; y < bounds.Max.Y-1; y++ {
-			//r, _, _, _ := img.At(x, y).RGBA()
 			gx, gy := getGradients(img, x, y)
 			fmt.Println(gx)
 			fmt.Println(gy)
 		}
 	}
-	return img
+	return sobel
 }
 
 // Sobel applies sobel filter to an image
-// TODO: write this function already!
-func Sobel(filename string) image.Gray {
+func Sobel(filename string) *image.Gray {
 	if !utils.CheckIfFileExists(filename) {
 		panic("The file does not exist")
 	}
