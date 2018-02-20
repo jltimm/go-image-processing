@@ -11,7 +11,8 @@ func sobelOperator(img image.Gray) image.Gray {
 	bounds := img.Bounds()
 	for x := 0; x < bounds.Max.X; x++ {
 		for y := 0; y < bounds.Max.Y; y++ {
-			fmt.Println(img.At(x, y))
+			r, _, _, _ := img.At(x, y).RGBA()
+			fmt.Println(uint8(r))
 		}
 	}
 	return img
