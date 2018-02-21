@@ -1,9 +1,9 @@
 package convolutions
 
 import (
-	"fmt"
 	"image"
 	"image/color"
+	"math"
 
 	"github.com/jltimm/go-image-processing/utils"
 )
@@ -28,7 +28,8 @@ func getPixelValue(color color.Color) int8 {
 }
 
 // Does the actual math for calculating the gradients
-func getGradients(img image.Gray, x int, y int) (int8, int8) {
+func calculateGradients(img image.NRGBA, x int, y int) (float64, float64, uint8) {
+	//TODO: consider declaring all of the img.At so it's not found twice
 	gx := (kernelX[2][2]*getPixelValue(img.At(x-1, y-1)) + (kernelX[2][1] * getPixelValue(img.At(x-1, y))) + (kernelX[2][0] * getPixelValue(img.At(x-1, y+1))) +
 		kernelX[1][2]*getPixelValue(img.At(x, y-1)) + (kernelX[1][1] * getPixelValue(img.At(x, y))) + (kernelX[1][0] * getPixelValue(img.At(x, y+1))) +
 		kernelX[0][2]*getPixelValue(img.At(x+1, y-1)) + (kernelX[0][1] * getPixelValue(img.At(x+1, y))) + (kernelX[0][0] * getPixelValue(img.At(x+1, y+1))))
@@ -37,32 +38,42 @@ func getGradients(img image.Gray, x int, y int) (int8, int8) {
 		kernelY[1][2]*getPixelValue(img.At(x, y-1)) + (kernelY[1][1] * getPixelValue(img.At(x, y))) + (kernelY[1][0] * getPixelValue(img.At(x, y+1))) +
 		kernelY[0][2]*getPixelValue(img.At(x+1, y-1)) + (kernelY[0][1] * getPixelValue(img.At(x+1, y))) + (kernelY[0][0] * getPixelValue(img.At(x+1, y+1))))
 
-	return gx, gy
+	_, _, _, a := img.At(x, y).RGBA()
+
+	return float64(gx), float64(gy), uint8(a)
+}
+
+func calculateMagnitude(gx float64, gy float64) uint8 {
+	g := math.Sqrt((gx * gx) + (gy * gy))
+	if g > 255 {
+		return 255
+	}
+	return uint8(g)
 }
 
 // Loops through image, calculating sobel
-func sobelOperator(img image.Gray) *image.Gray {
+func sobelOperator(img image.NRGBA) *image.NRGBA {
 	var (
 		bounds = img.Bounds()
-		sobel  = image.NewGray(bounds)
+		sobel  = image.NewNRGBA(bounds)
 	)
 	for x := 1; x < bounds.Max.X-1; x++ {
 		for y := 1; y < bounds.Max.Y-1; y++ {
-			gx, gy := getGradients(img, x, y)
-			fmt.Println(gx)
-			fmt.Println(gy)
+			gx, gy, a := calculateGradients(img, x, y)
+			g := calculateMagnitude(gx, gy)
+			sobel.Set(x, y, color.RGBA{g, g, g, a})
 		}
 	}
 	return sobel
 }
 
 // Sobel applies sobel filter to an image
-func Sobel(filename string) *image.Gray {
+func Sobel(filename string) *image.NRGBA {
 	if !utils.CheckIfFileExists(filename) {
 		panic("The file does not exist")
 	}
 
-	img := utils.ConvertToGrayscaleFromFilename(filename)
+	img := utils.ConvertToGrayscaleFromFilenameReturnNRGBA(filename)
 	if img == nil {
 		panic("img returned nil")
 	}

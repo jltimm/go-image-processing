@@ -3,6 +3,8 @@ package main
 import (
 	"os"
 
+	"github.com/jltimm/go-image-processing/utils"
+
 	"github.com/jltimm/go-image-processing/convolutions"
 )
 
@@ -16,7 +18,8 @@ func main() {
 		filename := args[1]
 
 		if conv == "sobel" {
-			convolutions.Sobel(filename)
+			sobel := convolutions.Sobel(filename)
+			utils.CreateFileFromNRGBA("", "", sobel)
 		}
 
 	}
