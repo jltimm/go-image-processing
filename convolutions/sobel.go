@@ -1,6 +1,7 @@
 package convolutions
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 	"math"
@@ -22,43 +23,37 @@ var (
 	}
 )
 
-//TODO: write method that converts the image data into a 2D array to eliminate all the img.At calls
 //TODO: rename convolutions to edge-detection
-func getImageData(img image.NRGBA) [][]uint8 {
+// getImageData converts image data to a 2D array
+// TODO: consider moving this out of convolutions, into helper
+func getImageData(img image.NRGBA) [][]int8 {
 	bounds := img.Bounds()
-	imgArray := make([][]uint8, bounds.Max.Y)
+	imgArray := make([][]int8, bounds.Max.Y)
 	for i := 0; i < bounds.Max.Y; i++ {
-		imgArray[i] = make([]uint8, bounds.Max.X)
+		imgArray[i] = make([]int8, bounds.Max.X)
 	}
 	for x := 0; x < bounds.Max.X; x++ {
 		for y := 0; y < bounds.Max.Y; y++ {
 			r, _, _, _ := img.At(x, y).RGBA()
-			imgArray[x][y] = uint8(r)
+			imgArray[x][y] = int8(r)
+			fmt.Println(imgArray[x][y])
 		}
 	}
 	return imgArray
 }
 
-// getPixelValue returns only the r value (since it's grayscale and they're all the same)
-func getPixelValue(color color.Color) int8 {
-	r, _, _, _ := color.RGBA()
-	return int8(r)
-}
-
 // calculateGradients does the actual math for calculating the gradients
-func calculateGradients(img image.NRGBA, x int, y int) (float64, float64, uint8) {
+func calculateGradients(imgArray [][]int8, x int, y int) (float64, float64, uint8) {
 	//TODO: consider declaring all of the img.At so it's not found twice
-	gx := (kernelX[2][2]*getPixelValue(img.At(x-1, y-1)) + (kernelX[2][1] * getPixelValue(img.At(x-1, y))) + (kernelX[2][0] * getPixelValue(img.At(x-1, y+1))) +
-		kernelX[1][2]*getPixelValue(img.At(x, y-1)) + (kernelX[1][1] * getPixelValue(img.At(x, y))) + (kernelX[1][0] * getPixelValue(img.At(x, y+1))) +
-		kernelX[0][2]*getPixelValue(img.At(x+1, y-1)) + (kernelX[0][1] * getPixelValue(img.At(x+1, y))) + (kernelX[0][0] * getPixelValue(img.At(x+1, y+1))))
+	gx := (kernelX[2][2] * imgArray[x-1][y-1]) + (kernelX[2][1] * imgArray[x-1][y]) + (kernelX[2][0] * imgArray[x-1][y+1]) +
+		(kernelX[1][2] * imgArray[x][y-1]) + (kernelX[1][1] * imgArray[x][y]) + (kernelX[1][0] * imgArray[x][y+1]) +
+		(kernelX[0][2] * imgArray[x+1][y-1]) + (kernelX[0][1] * imgArray[x+1][y]) + (kernelX[0][0] * imgArray[x+1][y+1])
 
-	gy := (kernelY[2][2]*getPixelValue(img.At(x-1, y-1)) + (kernelY[2][1] * getPixelValue(img.At(x-1, y))) + (kernelY[2][0] * getPixelValue(img.At(x-1, y+1))) +
-		kernelY[1][2]*getPixelValue(img.At(x, y-1)) + (kernelY[1][1] * getPixelValue(img.At(x, y))) + (kernelY[1][0] * getPixelValue(img.At(x, y+1))) +
-		kernelY[0][2]*getPixelValue(img.At(x+1, y-1)) + (kernelY[0][1] * getPixelValue(img.At(x+1, y))) + (kernelY[0][0] * getPixelValue(img.At(x+1, y+1))))
+	gy := (kernelY[2][2] * imgArray[x-1][y-1]) + (kernelY[2][1] * imgArray[x-1][y]) + (kernelY[2][0] * imgArray[x-1][y+1]) +
+		(kernelY[1][2] * imgArray[x][y-1]) + (kernelY[1][1] * imgArray[x][y]) + (kernelY[1][0] * imgArray[x][y+1]) +
+		(kernelY[0][2] * imgArray[x+1][y-1]) + (kernelY[0][1] * imgArray[x+1][y]) + (kernelY[0][0] * imgArray[x+1][y+1])
 
-	_, _, _, a := img.At(x, y).RGBA()
-
-	return float64(gx), float64(gy), uint8(a)
+	return float64(gx), float64(gy), 255
 }
 
 // calculateMagniute calculates the magnitude
@@ -73,12 +68,13 @@ func calculateMagnitude(gx float64, gy float64) uint8 {
 // Loops through image, calculating sobel
 func sobelOperator(img image.NRGBA) *image.NRGBA {
 	var (
-		bounds = img.Bounds()
-		sobel  = image.NewNRGBA(bounds)
+		bounds   = img.Bounds()
+		sobel    = image.NewNRGBA(bounds)
+		imgArray = getImageData(img)
 	)
 	for x := 1; x < bounds.Max.X-1; x++ {
 		for y := 1; y < bounds.Max.Y-1; y++ {
-			gx, gy, a := calculateGradients(img, x, y)
+			gx, gy, a := calculateGradients(imgArray, x, y)
 			g := calculateMagnitude(gx, gy)
 			sobel.Set(x, y, color.RGBA{g, g, g, a})
 		}
