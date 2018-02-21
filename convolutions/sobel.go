@@ -80,6 +80,13 @@ func Sobel(filename string) *image.NRGBA {
 		panic("img returned nil")
 	}
 
-	sobelImg := sobelOperator(*img)
-	return sobelImg
+	sobel := sobelOperator(*img)
+	return sobel
+}
+
+// CreateSobelFromFile takes as input a filename, performs the sobel transform on the file, and
+// creates a file with the name newFilename
+func CreateSobelFromFile(filename string, newFilename string) {
+	sobel := Sobel(filename)
+	utils.CreateFileFromNRGBA(newFilename, sobel)
 }
