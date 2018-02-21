@@ -24,6 +24,20 @@ var (
 
 //TODO: write method that converts the image data into a 2D array to eliminate all the img.At calls
 //TODO: rename convolutions to edge-detection
+func getImageData(img image.NRGBA) [][]uint8 {
+	bounds := img.Bounds()
+	imgArray := make([][]uint8, bounds.Max.Y)
+	for i := 0; i < bounds.Max.Y; i++ {
+		imgArray[i] = make([]uint8, bounds.Max.X)
+	}
+	for x := 0; x < bounds.Max.X; x++ {
+		for y := 0; y < bounds.Max.Y; y++ {
+			r, _, _, _ := img.At(x, y).RGBA()
+			imgArray[x][y] = uint8(r)
+		}
+	}
+	return imgArray
+}
 
 // getPixelValue returns only the r value (since it's grayscale and they're all the same)
 func getPixelValue(color color.Color) int8 {
@@ -82,7 +96,7 @@ func Sobel(filename string) *image.NRGBA {
 	if img == nil {
 		panic("img returned nil")
 	}
-
+	getImageData(*img)
 	sobel := sobelOperator(*img)
 	return sobel
 }
