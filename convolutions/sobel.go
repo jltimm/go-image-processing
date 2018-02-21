@@ -23,6 +23,7 @@ var (
 )
 
 //TODO: write method that converts the image data into a 2D array to eliminate all the img.At calls
+//TODO: rename convolutions to edge-detection
 
 // getPixelValue returns only the r value (since it's grayscale and they're all the same)
 func getPixelValue(color color.Color) int8 {
