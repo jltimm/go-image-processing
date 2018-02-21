@@ -22,12 +22,13 @@ var (
 	}
 )
 
+// getPixelValue returns only the r value (since it's grayscale and they're all the same)
 func getPixelValue(color color.Color) int8 {
 	r, _, _, _ := color.RGBA()
 	return int8(r)
 }
 
-// Does the actual math for calculating the gradients
+// calculateGradients does the actual math for calculating the gradients
 func calculateGradients(img image.NRGBA, x int, y int) (float64, float64, uint8) {
 	//TODO: consider declaring all of the img.At so it's not found twice
 	gx := (kernelX[2][2]*getPixelValue(img.At(x-1, y-1)) + (kernelX[2][1] * getPixelValue(img.At(x-1, y))) + (kernelX[2][0] * getPixelValue(img.At(x-1, y+1))) +
@@ -43,6 +44,7 @@ func calculateGradients(img image.NRGBA, x int, y int) (float64, float64, uint8)
 	return float64(gx), float64(gy), uint8(a)
 }
 
+// calculateMagniute calculates the magnitude
 func calculateMagnitude(gx float64, gy float64) uint8 {
 	g := math.Sqrt((gx * gx) + (gy * gy))
 	if g > 255 {
