@@ -50,6 +50,12 @@ func ConvertToSepiaFromImageData(img image.Image) *image.NRGBA {
 	return sepia
 }
 
+// ConvertToSepiaFromFilename takes as input a filename and converts it to sepia tone
+func ConvertToSepiaFromFilename(filename string) *image.NRGBA {
+	img := DecodeImage(filename)
+	return ConvertToSepiaFromImageData(img)
+}
+
 // ConvertToGrayscaleFromImageDataReturnNRGBA takes as input image data and returns a grayscale image
 // TODO: These two methods are named horribly, and should be placed in a new folder. In fact, all conversion types with different
 // return types should be moved to different folders so they can all use a common name.
@@ -74,10 +80,4 @@ func ConvertToGrayscaleFromImageDataReturnNRGBA(img image.Image) *image.NRGBA {
 func ConvertToGrayscaleFromFilenameReturnNRGBA(filename string) *image.NRGBA {
 	img := DecodeImage(filename)
 	return ConvertToGrayscaleFromImageDataReturnNRGBA(img)
-}
-
-// ConvertToSepiaFromFilename takes as input a filename and converts it to sepia tone
-func ConvertToSepiaFromFilename(filename string) *image.NRGBA {
-	img := DecodeImage(filename)
-	return ConvertToSepiaFromImageData(img)
 }

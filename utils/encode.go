@@ -2,6 +2,7 @@ package utils
 
 import (
 	"image"
+	"image/jpeg"
 	"image/png"
 	"os"
 )
@@ -12,11 +13,16 @@ import (
 // TODO: clean this up
 func CreateFileFromNRGBA(filename string, img *image.NRGBA) {
 	outputFile, err := os.Create(filename)
+	defer outputFile.Close()
 	if err != nil {
 		panic(err)
 	}
-
-	// TODO: split desiredFilename by ',' and check for extension. if no extension, use the one from the filename
-	png.Encode(outputFile, img)
-	outputFile.Close()
+	ext := getFileExtension(filename)
+	if !checkIfPngOrJpg(ext) {
+		panic("File is not png or jpeg")
+	}
+	if ext == "png" {
+		png.Encode(outputFile, img)
+	}
+	jpeg.Encode(outputFile, img, nil)
 }
