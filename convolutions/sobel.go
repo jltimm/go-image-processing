@@ -1,7 +1,6 @@
 package convolutions
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	"math"
@@ -36,7 +35,6 @@ func getImageData(img image.NRGBA) [][]int8 {
 		for y := 0; y < bounds.Max.Y; y++ {
 			r, _, _, _ := img.At(x, y).RGBA()
 			imgArray[x][y] = int8(r)
-			fmt.Println(imgArray[x][y])
 		}
 	}
 	return imgArray

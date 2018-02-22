@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/jltimm/go-image-processing/utils"
+	"github.com/jltimm/go-image-processing/convolutions"
 )
 
 // Basically, all this method does is allow us to run
@@ -16,11 +16,7 @@ func main() {
 		filename := args[1]
 
 		if conv == "sobel" {
-			//convolutions.CreateSobelFromFile(filename, "sobel.jpg")
-			// sepia := utils.ConvertToSepiaFromFilename(filename)
-			// utils.CreateFileFromNRGBA("sepia.jpg", sepia)
-			img := utils.ConvertToGrayscaleFromFilenameReturnNRGBA(filename)
-			utils.CreateFileFromNRGBA("test1.jpg", img)
+			convolutions.CreateSobelFromFile(filename, "sobel.jpg")
 		}
 
 	}

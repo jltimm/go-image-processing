@@ -2,7 +2,6 @@ package utils
 
 import (
 	"image"
-	"image/jpeg"
 	"image/png"
 	"os"
 )
@@ -21,8 +20,6 @@ func CreateFileFromNRGBA(filename string, img *image.NRGBA) {
 	if !checkIfPngOrJpg(ext) {
 		panic("File is not png or jpeg")
 	}
-	if ext == "png" {
-		png.Encode(outputFile, img)
-	}
-	jpeg.Encode(outputFile, img, nil)
+	//TODO: figure out why jpeg.Encode is so horrible
+	png.Encode(outputFile, img)
 }
