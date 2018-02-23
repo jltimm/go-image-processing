@@ -5,6 +5,8 @@ import (
 	"image/color"
 )
 
+//TODO: consider adding more pointers where relevant
+
 // ConvertToGrayscaleFromImageData takes as input an image, and converts it to grayscale.
 // A lot of this code is inspired by https://maxhalford.github.io/blog/halftoning-1/
 // TODO: maybe move this out of this file?
