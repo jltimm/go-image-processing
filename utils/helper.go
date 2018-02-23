@@ -3,8 +3,32 @@ package utils
 import (
 	"image"
 	"image/color"
+	"math"
 	"strings"
 )
+
+// CalculateMagnitude calculates the magnitude
+func CalculateMagnitude(gx float64, gy float64) uint8 {
+	g := math.Sqrt((gx * gx) + (gy * gy))
+	if g > 255 {
+		return 255
+	}
+	return uint8(g)
+}
+
+// CalculateGradients does the actual math for calculating the gradients
+func CalculateGradients(imgArray [][]int8, kernelX [][]int8, kernelY [][]int8, x int, y int) (float64, float64, uint8) {
+	//TODO: consider declaring all of the img.At so it's not found twice
+	gx := (kernelX[2][2] * imgArray[x-1][y-1]) + (kernelX[2][1] * imgArray[x-1][y]) + (kernelX[2][0] * imgArray[x-1][y+1]) +
+		(kernelX[1][2] * imgArray[x][y-1]) + (kernelX[1][1] * imgArray[x][y]) + (kernelX[1][0] * imgArray[x][y+1]) +
+		(kernelX[0][2] * imgArray[x+1][y-1]) + (kernelX[0][1] * imgArray[x+1][y]) + (kernelX[0][0] * imgArray[x+1][y+1])
+
+	gy := (kernelY[2][2] * imgArray[x-1][y-1]) + (kernelY[2][1] * imgArray[x-1][y]) + (kernelY[2][0] * imgArray[x-1][y+1]) +
+		(kernelY[1][2] * imgArray[x][y-1]) + (kernelY[1][1] * imgArray[x][y]) + (kernelY[1][0] * imgArray[x][y+1]) +
+		(kernelY[0][2] * imgArray[x+1][y-1]) + (kernelY[0][1] * imgArray[x+1][y]) + (kernelY[0][0] * imgArray[x+1][y+1])
+
+	return float64(gx), float64(gy), 255
+}
 
 // GetImageData converts image data to a 2D array
 func GetImageData(img image.NRGBA) [][]int8 {

@@ -3,47 +3,23 @@ package convolutions
 import (
 	"image"
 	"image/color"
-	"math"
 
 	"github.com/jltimm/go-image-processing/utils"
 )
 
 // Declare the kernels for the sobel operator
 var (
-	kernelX = [][]int8{
+	sobelKernelX = [][]int8{
 		{1, 0, -1},
 		{2, 0, -2},
 		{1, 0, -1},
 	}
-	kernelY = [][]int8{
+	sobelKernelY = [][]int8{
 		{1, 2, 1},
 		{0, 0, 0},
 		{-1, -2, -1},
 	}
 )
-
-// calculateGradients does the actual math for calculating the gradients
-func calculateGradients(imgArray [][]int8, x int, y int) (float64, float64, uint8) {
-	//TODO: consider declaring all of the img.At so it's not found twice
-	gx := (kernelX[2][2] * imgArray[x-1][y-1]) + (kernelX[2][1] * imgArray[x-1][y]) + (kernelX[2][0] * imgArray[x-1][y+1]) +
-		(kernelX[1][2] * imgArray[x][y-1]) + (kernelX[1][1] * imgArray[x][y]) + (kernelX[1][0] * imgArray[x][y+1]) +
-		(kernelX[0][2] * imgArray[x+1][y-1]) + (kernelX[0][1] * imgArray[x+1][y]) + (kernelX[0][0] * imgArray[x+1][y+1])
-
-	gy := (kernelY[2][2] * imgArray[x-1][y-1]) + (kernelY[2][1] * imgArray[x-1][y]) + (kernelY[2][0] * imgArray[x-1][y+1]) +
-		(kernelY[1][2] * imgArray[x][y-1]) + (kernelY[1][1] * imgArray[x][y]) + (kernelY[1][0] * imgArray[x][y+1]) +
-		(kernelY[0][2] * imgArray[x+1][y-1]) + (kernelY[0][1] * imgArray[x+1][y]) + (kernelY[0][0] * imgArray[x+1][y+1])
-
-	return float64(gx), float64(gy), 255
-}
-
-// calculateMagniute calculates the magnitude
-func calculateMagnitude(gx float64, gy float64) uint8 {
-	g := math.Sqrt((gx * gx) + (gy * gy))
-	if g > 255 {
-		return 255
-	}
-	return uint8(g)
-}
 
 // Loops through image, calculating sobel
 func sobelOperator(img image.NRGBA) *image.NRGBA {
@@ -54,8 +30,8 @@ func sobelOperator(img image.NRGBA) *image.NRGBA {
 	)
 	for x := 1; x < bounds.Max.X-1; x++ {
 		for y := 1; y < bounds.Max.Y-1; y++ {
-			gx, gy, a := calculateGradients(imgArray, x, y)
-			g := calculateMagnitude(gx, gy)
+			gx, gy, a := utils.CalculateGradients(imgArray, sobelKernelX, sobelKernelY, x, y)
+			g := utils.CalculateMagnitude(gx, gy)
 			sobel.Set(x, y, color.RGBA{g, g, g, a})
 		}
 	}
