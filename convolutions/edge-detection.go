@@ -7,22 +7,8 @@ import (
 	"github.com/jltimm/go-image-processing/utils"
 )
 
-// Declare the kernels for the sobel operator
-var (
-	sobelKernelX = [][]int8{
-		{1, 0, -1},
-		{2, 0, -2},
-		{1, 0, -1},
-	}
-	sobelKernelY = [][]int8{
-		{1, 2, 1},
-		{0, 0, 0},
-		{-1, -2, -1},
-	}
-)
-
 // Loops through image, calculating sobel
-func sobelOperator(img image.NRGBA) *image.NRGBA {
+func kernelOperator(img image.NRGBA, kernelX [][]int8, kernelY [][]int8) *image.NRGBA {
 	var (
 		bounds   = img.Bounds()
 		sobel    = image.NewNRGBA(bounds)
@@ -30,7 +16,7 @@ func sobelOperator(img image.NRGBA) *image.NRGBA {
 	)
 	for x := 1; x < bounds.Max.X-1; x++ {
 		for y := 1; y < bounds.Max.Y-1; y++ {
-			gx, gy, a := utils.CalculateGradients(imgArray, sobelKernelX, sobelKernelY, x, y)
+			gx, gy, a := utils.CalculateGradients(imgArray, kernelX, kernelY, x, y)
 			g := utils.CalculateMagnitude(gx, gy)
 			sobel.Set(x, y, color.RGBA{g, g, g, a})
 		}
@@ -40,15 +26,26 @@ func sobelOperator(img image.NRGBA) *image.NRGBA {
 
 // Sobel applies sobel filter to an image
 func Sobel(filename string) *image.NRGBA {
+	var (
+		sobelKernelX = [][]int8{
+			{1, 0, -1},
+			{2, 0, -2},
+			{1, 0, -1},
+		}
+		sobelKernelY = [][]int8{
+			{1, 2, 1},
+			{0, 0, 0},
+			{-1, -2, -1},
+		}
+	)
 	if !utils.CheckIfFileExists(filename) {
 		panic("The file does not exist")
 	}
-
 	img := utils.ConvertToGrayscaleFromFilenameReturnNRGBA(filename)
 	if img == nil {
 		panic("img returned nil")
 	}
-	sobel := sobelOperator(*img)
+	sobel := kernelOperator(*img, sobelKernelX, sobelKernelY)
 	return sobel
 }
 
