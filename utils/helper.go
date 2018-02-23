@@ -8,6 +8,7 @@ import (
 )
 
 // CalculateMagnitude calculates the magnitude
+// TODO: replace 255 with a value from image
 func CalculateMagnitude(gx float64, gy float64) uint8 {
 	g := math.Sqrt((gx * gx) + (gy * gy))
 	if g > 255 {
@@ -17,6 +18,7 @@ func CalculateMagnitude(gx float64, gy float64) uint8 {
 }
 
 // CalculateGradients does the actual math for calculating the gradients
+// TODO: replace with for loops, so its not hardcoded
 func CalculateGradients(imgArray [][]int8, kernelX [][]int8, kernelY [][]int8, x int, y int) (float64, float64, uint8) {
 	//TODO: consider declaring all of the img.At so it's not found twice
 	gx := (kernelX[2][2] * imgArray[x-1][y-1]) + (kernelX[2][1] * imgArray[x-1][y]) + (kernelX[2][0] * imgArray[x-1][y+1]) +
