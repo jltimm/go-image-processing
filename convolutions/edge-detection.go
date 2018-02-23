@@ -24,6 +24,31 @@ func kernelOperator(img image.NRGBA, kernelX [][]int8, kernelY [][]int8) *image.
 	return sobel
 }
 
+// Prewitt applies prewitt operator to an image
+func Prewitt(filename string) *image.NRGBA {
+	var (
+		prewittKernelX = [][]int8{
+			{-1, 0, 1},
+			{-1, 0, 1},
+			{-1, 0, 1},
+		}
+		prewittKernelY = [][]int8{
+			{-1, -1, -1},
+			{0, 0, 0},
+			{+1, +1, +1},
+		}
+	)
+	if !utils.CheckIfFileExists(filename) {
+		panic("The file does not exist")
+	}
+	img := utils.ConvertToGrayscaleFromFilenameReturnNRGBA(filename)
+	if img == nil {
+		panic("img returned nil")
+	}
+	prewitt := kernelOperator(*img, prewittKernelX, prewittKernelY)
+	return prewitt
+}
+
 // Sobel applies sobel filter to an image
 func Sobel(filename string) *image.NRGBA {
 	var (
@@ -47,6 +72,13 @@ func Sobel(filename string) *image.NRGBA {
 	}
 	sobel := kernelOperator(*img, sobelKernelX, sobelKernelY)
 	return sobel
+}
+
+// CreatePrewittFromFile takes as input a filename, performs the roberts cross on the file, and
+// creates a file with the name newFilename
+func CreatePrewittFromFile(filename string, newFilename string) {
+	prewitt := Prewitt(filename)
+	utils.CreateFileFromNRGBA(newFilename, prewitt)
 }
 
 // CreateSobelFromFile takes as input a filename, performs the sobel transform on the file, and
