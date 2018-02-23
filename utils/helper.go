@@ -1,9 +1,26 @@
 package utils
 
 import (
+	"image"
 	"image/color"
 	"strings"
 )
+
+// GetImageData converts image data to a 2D array
+func GetImageData(img image.NRGBA) [][]int8 {
+	bounds := img.Bounds()
+	imgArray := make([][]int8, bounds.Max.Y)
+	for i := 0; i < bounds.Max.Y; i++ {
+		imgArray[i] = make([]int8, bounds.Max.X)
+	}
+	for x := 0; x < bounds.Max.X; x++ {
+		for y := 0; y < bounds.Max.Y; y++ {
+			r, _, _, _ := img.At(x, y).RGBA()
+			imgArray[x][y] = int8(r)
+		}
+	}
+	return imgArray
+}
 
 // convert32BitTo8Bit converts uint32 to uint8
 func convert32BitTo8Bit(r, g, b, a uint32) (uint8, uint8, uint8, uint8) {
@@ -22,7 +39,7 @@ func getColor(r, g, b, a float64) color.Color {
 	if b > a {
 		b = a
 	}
-	return color.RGBA{uint8(r), uint8(g), uint8(b), uint8(a)}
+	return color.NRGBA{uint8(r), uint8(g), uint8(b), uint8(a)}
 }
 
 // checkIfPngOrJpg takes as input an extension and returns true if its jpg or png.

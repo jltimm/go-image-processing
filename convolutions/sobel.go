@@ -22,24 +22,6 @@ var (
 	}
 )
 
-//TODO: rename convolutions to edge-detection
-// getImageData converts image data to a 2D array
-// TODO: consider moving this out of convolutions, into helper
-func getImageData(img image.NRGBA) [][]int8 {
-	bounds := img.Bounds()
-	imgArray := make([][]int8, bounds.Max.Y)
-	for i := 0; i < bounds.Max.Y; i++ {
-		imgArray[i] = make([]int8, bounds.Max.X)
-	}
-	for x := 0; x < bounds.Max.X; x++ {
-		for y := 0; y < bounds.Max.Y; y++ {
-			r, _, _, _ := img.At(x, y).RGBA()
-			imgArray[x][y] = int8(r)
-		}
-	}
-	return imgArray
-}
-
 // calculateGradients does the actual math for calculating the gradients
 func calculateGradients(imgArray [][]int8, x int, y int) (float64, float64, uint8) {
 	//TODO: consider declaring all of the img.At so it's not found twice
@@ -68,7 +50,7 @@ func sobelOperator(img image.NRGBA) *image.NRGBA {
 	var (
 		bounds   = img.Bounds()
 		sobel    = image.NewNRGBA(bounds)
-		imgArray = getImageData(img)
+		imgArray = utils.GetImageData(img)
 	)
 	for x := 1; x < bounds.Max.X-1; x++ {
 		for y := 1; y < bounds.Max.Y-1; y++ {
@@ -90,7 +72,6 @@ func Sobel(filename string) *image.NRGBA {
 	if img == nil {
 		panic("img returned nil")
 	}
-	getImageData(*img)
 	sobel := sobelOperator(*img)
 	return sobel
 }
