@@ -35,7 +35,7 @@ func Prewitt(filename string) *image.NRGBA {
 		prewittKernelY = [][]int8{
 			{-1, -1, -1},
 			{0, 0, 0},
-			{+1, +1, +1},
+			{1, 1, 1},
 		}
 	)
 	if !utils.CheckIfFileExists(filename) {
