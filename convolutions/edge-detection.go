@@ -7,6 +7,8 @@ import (
 	"github.com/jltimm/go-image-processing/utils"
 )
 
+// TODO: Scharr - https://docs.opencv.org/3.3.0/d2/d2c/tutorial_sobel_derivatives.html
+
 // Loops through image, calculating sobel
 func kernelOperator(img image.NRGBA, kernelX [][]int8, kernelY [][]int8) *image.NRGBA {
 	var (
