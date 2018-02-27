@@ -26,6 +26,30 @@ func kernelOperator(img image.NRGBA, kernelX [][]int8, kernelY [][]int8) *image.
 	return sobel
 }
 
+func Scharr(filename string) *image.NRGBA {
+	var (
+		scharrKernelX = [][]int8{
+			{-3, 0, 3},
+			{-10, 0, 10},
+			{-3, 0, 3},
+		}
+		scharrKernelY = [][]int8{
+			{-3, -10, -3},
+			{0, 0, 0},
+			{3, 10, 3},
+		}
+	)
+	if !utils.CheckIfFileExists(filename) {
+		panic("The file does not exist")
+	}
+	img := utils.ConvertToGrayscaleFromFilenameReturnNRGBA(filename)
+	if img == nil {
+		panic("img returned nil")
+	}
+	scharr := kernelOperator(*img, scharrKernelX, scharrKernelY)
+	return scharr
+}
+
 // TODO: fix this and sobel, move some of the repetition out
 // Prewitt applies prewitt operator to an image
 func Prewitt(filename string) *image.NRGBA {
