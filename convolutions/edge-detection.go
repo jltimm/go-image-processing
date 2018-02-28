@@ -102,23 +102,23 @@ func Sobel(filename string) *image.NRGBA {
 	return sobel
 }
 
-// CreateScharrFromFile takes as input a filename, performs the scharr operator on the file, and
+// ScharrToFile takes as input a filename, performs the scharr operator on the file, and
 // creates a file with the name newFilename
-func CreateScharrFromFile(filename string, newFilename string) {
+func ScharrToFile(filename string, newFilename string) {
 	scharr := Scharr(filename)
 	utils.CreateFileFromNRGBA(newFilename, scharr)
 }
 
-// CreatePrewittFromFile takes as input a filename, performs the prewitt operator on the file, and
+// PrewittToFile takes as input a filename, performs the prewitt operator on the file, and
 // creates a file with the name newFilename
-func CreatePrewittFromFile(filename string, newFilename string) {
+func PrewittToFile(filename string, newFilename string) {
 	prewitt := Prewitt(filename)
 	utils.CreateFileFromNRGBA(newFilename, prewitt)
 }
 
-// CreateSobelFromFile takes as input a filename, performs the sobel transform on the file, and
+// SobelToFile takes as input a filename, performs the sobel transform on the file, and
 // creates a file with the name newFilename
-func CreateSobelFromFile(filename string, newFilename string) {
+func SobelToFile(filename string, newFilename string) {
 	sobel := Sobel(filename)
 	utils.CreateFileFromNRGBA(newFilename, sobel)
 }

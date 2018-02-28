@@ -16,7 +16,7 @@ func main() {
 		filename := args[1]
 
 		if conv == "sobel" {
-			convolutions.CreateScharrFromFile(filename, "scharr.png")
+			convolutions.SobelToFile(filename, "sobel.png")
 		}
 
 	}
