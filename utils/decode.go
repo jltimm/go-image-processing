@@ -7,8 +7,8 @@ import (
 	"os"
 )
 
-// CheckIfFileExists takes as input a filename, and checks if a file exists
-func CheckIfFileExists(filename string) bool {
+// DoesFileExist takes as input a filename, and checks if a file exists
+func DoesFileExist(filename string) bool {
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
 		return false
 	}

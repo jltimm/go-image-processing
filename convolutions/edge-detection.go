@@ -40,7 +40,7 @@ func Scharr(filename string) *image.NRGBA {
 			{3, 10, 3},
 		}
 	)
-	if !utils.CheckIfFileExists(filename) {
+	if !utils.DoesFileExist(filename) {
 		panic("The file does not exist")
 	}
 	img := utils.ConvertToGrayscaleFromFilenameReturnNRGBA(filename)
@@ -66,7 +66,7 @@ func Prewitt(filename string) *image.NRGBA {
 			{1, 1, 1},
 		}
 	)
-	if !utils.CheckIfFileExists(filename) {
+	if !utils.DoesFileExist(filename) {
 		panic("The file does not exist")
 	}
 	img := utils.ConvertToGrayscaleFromFilenameReturnNRGBA(filename)
@@ -91,7 +91,7 @@ func Sobel(filename string) *image.NRGBA {
 			{-1, -2, -1},
 		}
 	)
-	if !utils.CheckIfFileExists(filename) {
+	if !utils.DoesFileExist(filename) {
 		panic("The file does not exist")
 	}
 	img := utils.ConvertToGrayscaleFromFilenameReturnNRGBA(filename)
