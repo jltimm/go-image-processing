@@ -26,6 +26,7 @@ func kernelOperator(img image.NRGBA, kernelX [][]int8, kernelY [][]int8) *image.
 	return sobel
 }
 
+// Scharr applies the scharr operator to an image
 func Scharr(filename string) *image.NRGBA {
 	var (
 		scharrKernelX = [][]int8{
@@ -101,7 +102,14 @@ func Sobel(filename string) *image.NRGBA {
 	return sobel
 }
 
-// CreatePrewittFromFile takes as input a filename, performs the roberts cross on the file, and
+// CreateScharrFromFile takes as input a filename, performs the scharr operator on the file, and
+// creates a file with the name newFilename
+func CreateScharrFromFile(filename string, newFilename string) {
+	scharr := Scharr(filename)
+	utils.CreateFileFromNRGBA(newFilename, scharr)
+}
+
+// CreatePrewittFromFile takes as input a filename, performs the prewitt operator on the file, and
 // creates a file with the name newFilename
 func CreatePrewittFromFile(filename string, newFilename string) {
 	prewitt := Prewitt(filename)
