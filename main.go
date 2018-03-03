@@ -9,6 +9,7 @@ import (
 // Basically, all this method does is allow us to run
 // the various tools in this repo.
 // TODO: general: consider dereferencing all pointers
+// TODO: general: add tests
 func main() {
 	args := os.Args[1:]
 	if len(args) >= 2 {
