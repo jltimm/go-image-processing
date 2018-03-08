@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	"math"
@@ -21,20 +20,25 @@ func CalculateMagnitude(gx float64, gy float64) uint8 {
 // CalculateGradients does the actual math for calculating the gradients
 // TODO: replace with for loops, so its not hardcoded
 func CalculateGradients(imgArray [][]int8, kernelX [][]int8, kernelY [][]int8, x int, y int) (float64, float64, uint8) {
-	// gx := (kernelX[2][2] * imgArray[x-1][y-1]) + (kernelX[2][1] * imgArray[x-1][y]) + (kernelX[2][0] * imgArray[x-1][y+1]) +
-	// 	(kernelX[1][2] * imgArray[x][y-1]) + (kernelX[1][1] * imgArray[x][y]) + (kernelX[1][0] * imgArray[x][y+1]) +
-	// 	(kernelX[0][2] * imgArray[x+1][y-1]) + (kernelX[0][1] * imgArray[x+1][y]) + (kernelX[0][0] * imgArray[x+1][y+1])
+	gx := (kernelX[2][2] * imgArray[x-1][y-1]) + (kernelX[2][1] * imgArray[x-1][y]) + (kernelX[2][0] * imgArray[x-1][y+1]) +
+		(kernelX[1][2] * imgArray[x][y-1]) + (kernelX[1][1] * imgArray[x][y]) + (kernelX[1][0] * imgArray[x][y+1]) +
+		(kernelX[0][2] * imgArray[x+1][y-1]) + (kernelX[0][1] * imgArray[x+1][y]) + (kernelX[0][0] * imgArray[x+1][y+1])
 
-	// gy := (kernelY[2][2] * imgArray[x-1][y-1]) + (kernelY[2][1] * imgArray[x-1][y]) + (kernelY[2][0] * imgArray[x-1][y+1]) +
-	// 	(kernelY[1][2] * imgArray[x][y-1]) + (kernelY[1][1] * imgArray[x][y]) + (kernelY[1][0] * imgArray[x][y+1]) +
-	// 	(kernelY[0][2] * imgArray[x+1][y-1]) + (kernelY[0][1] * imgArray[x+1][y]) + (kernelY[0][0] * imgArray[x+1][y+1])
+	gy := (kernelY[2][2] * imgArray[x-1][y-1]) + (kernelY[2][1] * imgArray[x-1][y]) + (kernelY[2][0] * imgArray[x-1][y+1]) +
+		(kernelY[1][2] * imgArray[x][y-1]) + (kernelY[1][1] * imgArray[x][y]) + (kernelY[1][0] * imgArray[x][y+1]) +
+		(kernelY[0][2] * imgArray[x+1][y-1]) + (kernelY[0][1] * imgArray[x+1][y]) + (kernelY[0][0] * imgArray[x+1][y+1])
 	// TODO: multiple var declaration
-	gx := 0.0
-	gy := 0.0
-	xLength := len(kernelX[0])
-	yLength := len(kernelY[0])
-	fmt.Println(xLength)
-	fmt.Println(yLength)
+	// gx := 0.0
+	// gy := 0.0
+	// xLength := len(kernelX[0])
+	// yLength := len(kernelY[0]) - 1
+	// for i := 0; i < xLength; i++ {
+	// 	for j := yLength; j >= 0; j-- {
+
+	// 	}
+	// }
+	// fmt.Println(xLength)
+	// fmt.Println(yLength)
 
 	return float64(gx), float64(gy), 255
 }
