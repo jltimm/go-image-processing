@@ -7,8 +7,6 @@ import (
 	"github.com/jltimm/go-image-processing/utils"
 )
 
-// TODO: Scharr - https://docs.opencv.org/3.3.0/d2/d2c/tutorial_sobel_derivatives.html
-
 // Loops through image, calculating sobel
 func kernelOperator(img image.NRGBA, kernelX [][]int8, kernelY [][]int8) *image.NRGBA {
 	var (
@@ -26,6 +24,7 @@ func kernelOperator(img image.NRGBA, kernelX [][]int8, kernelY [][]int8) *image.
 	return sobel
 }
 
+// TODO: add padding
 // Scharr applies the scharr operator to an image
 func Scharr(filename string) *image.NRGBA {
 	var (
@@ -52,6 +51,7 @@ func Scharr(filename string) *image.NRGBA {
 }
 
 // TODO: fix this and sobel, move some of the repetition out
+// TODO: add padding
 // Prewitt applies prewitt operator to an image
 func Prewitt(filename string) *image.NRGBA {
 	var (
@@ -98,8 +98,8 @@ func Sobel(filename string) *image.NRGBA {
 	if img == nil {
 		panic("img returned nil")
 	}
-	sobel := kernelOperator(*img, sobelKernelX, sobelKernelY)
-	utils.Pad(sobel, 1)
+	paddedImg := utils.Pad(img, 1)
+	sobel := kernelOperator(*paddedImg, sobelKernelX, sobelKernelY)
 	return sobel
 }
 

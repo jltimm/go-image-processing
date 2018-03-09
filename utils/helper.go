@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	"math"
@@ -9,14 +8,21 @@ import (
 )
 
 // Pad adds padding to an image
-func Pad(img *image.NRGBA, padding int) {
+func Pad(img *image.NRGBA, padding int) *image.NRGBA {
 	var (
-		boundsX = img.Bounds().Dx() + padding
-		boundsY = img.Bounds().Dy() + padding
+		boundsX   = img.Bounds().Dx() + padding
+		boundsY   = img.Bounds().Dy() + padding
+		bounds    = image.Rect(0, 0, boundsX, boundsY)
+		paddedImg = image.NewNRGBA(bounds)
 	)
 
-	fmt.Println(boundsX)
-	fmt.Println(boundsY)
+	for x := padding; x < boundsX-padding; x++ {
+		for y := padding; y < boundsY-padding; y++ {
+			paddedImg.Set(x, y, img.At(x, y))
+		}
+	}
+
+	return paddedImg
 }
 
 // CalculateMagnitude calculates the magnitude
