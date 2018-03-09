@@ -99,6 +99,7 @@ func Sobel(filename string) *image.NRGBA {
 		panic("img returned nil")
 	}
 	sobel := kernelOperator(*img, sobelKernelX, sobelKernelY)
+	utils.Pad(sobel, 1)
 	return sobel
 }
 

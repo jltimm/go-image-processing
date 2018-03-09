@@ -1,11 +1,23 @@
 package utils
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 	"math"
 	"strings"
 )
+
+// Pad adds padding to an image
+func Pad(img *image.NRGBA, padding int) {
+	var (
+		boundsX = img.Bounds().Dx() + padding
+		boundsY = img.Bounds().Dy() + padding
+	)
+
+	fmt.Println(boundsX)
+	fmt.Println(boundsY)
+}
 
 // CalculateMagnitude calculates the magnitude
 // TODO: replace 255 with a value from image
