@@ -46,7 +46,8 @@ func Scharr(filename string) *image.NRGBA {
 	if img == nil {
 		panic("img returned nil")
 	}
-	scharr := kernelOperator(*img, scharrKernelX, scharrKernelY)
+	paddedImg := utils.Pad(img, 1)
+	scharr := kernelOperator(*paddedImg, scharrKernelX, scharrKernelY)
 	return scharr
 }
 
@@ -73,7 +74,8 @@ func Prewitt(filename string) *image.NRGBA {
 	if img == nil {
 		panic("img returned nil")
 	}
-	prewitt := kernelOperator(*img, prewittKernelX, prewittKernelY)
+	paddedImg := utils.Pad(img, 1)
+	prewitt := kernelOperator(*paddedImg, prewittKernelX, prewittKernelY)
 	return prewitt
 }
 
